@@ -81,8 +81,8 @@ namespace CrudPark.API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
                         .HasColumnType("text");
@@ -98,8 +98,8 @@ namespace CrudPark.API.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -128,8 +128,8 @@ namespace CrudPark.API.Migrations
                     b.Property<int>("OperatorId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("PaymentDateTime")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset>("PaymentDateTime")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("PaymentMethod")
                         .HasColumnType("integer");
@@ -198,8 +198,8 @@ namespace CrudPark.API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("EntryDateTime")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset>("EntryDateTime")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("EntryOperatorId")
                         .HasColumnType("integer");
@@ -207,8 +207,8 @@ namespace CrudPark.API.Migrations
                     b.Property<int>("EntryType")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime?>("ExitDateTime")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset?>("ExitDateTime")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int?>("ExitOperatorId")
                         .HasColumnType("integer");
@@ -227,6 +227,12 @@ namespace CrudPark.API.Migrations
                     b.Property<string>("QRCode")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<decimal?>("RateApplied")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal?>("TotalCost")
+                        .HasColumnType("numeric");
 
                     b.Property<int?>("TotalMinutes")
                         .HasColumnType("integer");

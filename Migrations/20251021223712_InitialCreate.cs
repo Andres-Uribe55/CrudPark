@@ -22,10 +22,12 @@ namespace CrudPark.API.Migrations
                     Email = table.Column<string>(type: "text", nullable: false),
                     Phone = table.Column<string>(type: "text", nullable: false),
                     LicensePlate = table.Column<string>(type: "text", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    VehicleType = table.Column<int>(type: "integer", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -43,8 +45,8 @@ namespace CrudPark.API.Migrations
                     Username = table.Column<string>(type: "text", nullable: false),
                     Password = table.Column<string>(type: "text", nullable: false),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -58,13 +60,14 @@ namespace CrudPark.API.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     RateName = table.Column<string>(type: "text", nullable: false),
+                    VehicleType = table.Column<int>(type: "integer", nullable: false),
                     HourlyRate = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
                     FractionRate = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
                     DailyCap = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
                     GracePeriodMinutes = table.Column<int>(type: "integer", nullable: false),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -79,14 +82,17 @@ namespace CrudPark.API.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Folio = table.Column<string>(type: "text", nullable: false),
                     LicensePlate = table.Column<string>(type: "text", nullable: false),
-                    EntryDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ExitDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    VehicleType = table.Column<int>(type: "integer", nullable: false),
+                    EntryDateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    ExitDateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     EntryType = table.Column<int>(type: "integer", nullable: false),
                     EntryOperatorId = table.Column<int>(type: "integer", nullable: false),
                     ExitOperatorId = table.Column<int>(type: "integer", nullable: true),
                     TotalMinutes = table.Column<int>(type: "integer", nullable: true),
                     MembershipId = table.Column<int>(type: "integer", nullable: true),
-                    QRCode = table.Column<string>(type: "text", nullable: false)
+                    QRCode = table.Column<string>(type: "text", nullable: false),
+                    RateApplied = table.Column<decimal>(type: "numeric", nullable: true),
+                    TotalCost = table.Column<decimal>(type: "numeric", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -120,7 +126,7 @@ namespace CrudPark.API.Migrations
                     TicketId = table.Column<int>(type: "integer", nullable: false),
                     AmountCharged = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
                     PaymentMethod = table.Column<int>(type: "integer", nullable: false),
-                    PaymentDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    PaymentDateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     OperatorId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -144,7 +150,8 @@ namespace CrudPark.API.Migrations
                 name: "IX_Memberships_LicensePlate",
                 table: "Memberships",
                 column: "LicensePlate",
-                unique: true);
+                unique: true,
+                filter: "\"IsActive\" = TRUE");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Operators_Username",

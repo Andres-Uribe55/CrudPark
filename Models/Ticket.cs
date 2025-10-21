@@ -6,14 +6,16 @@ public class Ticket
     public string Folio { get; set; } = string.Empty;
     public string LicensePlate { get; set; } = string.Empty;
     public VehicleType VehicleType { get; set; }
-    public DateTime EntryDateTime { get; set; }
-    public DateTime? ExitDateTime { get; set; }
+    public DateTimeOffset EntryDateTime { get; set; }
+    public DateTimeOffset? ExitDateTime { get; set; }
     public EntryType EntryType { get; set; }
     public int EntryOperatorId { get; set; }
     public int? ExitOperatorId { get; set; }
     public int? TotalMinutes { get; set; }
     public int? MembershipId { get; set; }
     public string QRCode { get; set; } = string.Empty;
+    public decimal? RateApplied { get; set; } 
+    public decimal? TotalCost { get; set; }
     
     // Navigation Properties
     public Operator? EntryOperator { get; set; }

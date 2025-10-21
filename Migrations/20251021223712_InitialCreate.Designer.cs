@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CrudPark.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251021021245_ConfigureUtcDateTime")]
-    partial class ConfigureUtcDateTime
+    [Migration("20251021223712_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,7 +37,7 @@ namespace CrudPark.API.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
@@ -45,7 +45,7 @@ namespace CrudPark.API.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("EndDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
@@ -59,9 +59,9 @@ namespace CrudPark.API.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("StartDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
-                    b.Property<DateTime?>("UpdatedAt")
+                    b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("VehicleType")
@@ -70,7 +70,8 @@ namespace CrudPark.API.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("LicensePlate")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("\"IsActive\" = TRUE");
 
                     b.ToTable("Memberships");
                 });
@@ -83,7 +84,7 @@ namespace CrudPark.API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
@@ -100,7 +101,7 @@ namespace CrudPark.API.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("UpdatedAt")
+                    b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Username")
@@ -130,7 +131,7 @@ namespace CrudPark.API.Migrations
                     b.Property<int>("OperatorId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("PaymentDateTime")
+                    b.Property<DateTimeOffset>("PaymentDateTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("PaymentMethod")
@@ -156,7 +157,7 @@ namespace CrudPark.API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<decimal>("DailyCap")
@@ -181,7 +182,7 @@ namespace CrudPark.API.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("UpdatedAt")
+                    b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("VehicleType")
@@ -200,7 +201,7 @@ namespace CrudPark.API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("EntryDateTime")
+                    b.Property<DateTimeOffset>("EntryDateTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("EntryOperatorId")
@@ -209,7 +210,7 @@ namespace CrudPark.API.Migrations
                     b.Property<int>("EntryType")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime?>("ExitDateTime")
+                    b.Property<DateTimeOffset?>("ExitDateTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int?>("ExitOperatorId")
@@ -229,6 +230,12 @@ namespace CrudPark.API.Migrations
                     b.Property<string>("QRCode")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<decimal?>("RateApplied")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal?>("TotalCost")
+                        .HasColumnType("numeric");
 
                     b.Property<int?>("TotalMinutes")
                         .HasColumnType("integer");

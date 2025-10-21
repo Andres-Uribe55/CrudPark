@@ -6,7 +6,7 @@ public class Payment
     public int TicketId { get; set; }
     public decimal AmountCharged { get; set; }
     public PaymentMethod PaymentMethod { get; set; }
-    public DateTime PaymentDateTime { get; set; }
+    public DateTimeOffset PaymentDateTime { get; set; }
     public int OperatorId { get; set; }
     
     // Navigation Properties

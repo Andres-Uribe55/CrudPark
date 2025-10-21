@@ -11,4 +11,5 @@ public interface IMembershipRepository
     Task<Membership> UpdateAsync(Membership membership);
     Task<bool> DeleteAsync(int id);
     Task<bool> ExistsActiveMembershipAsync(string licensePlate);
+    Task<Membership?> GetActiveMembershipByLicensePlateAsync(string licensePlate);
 }

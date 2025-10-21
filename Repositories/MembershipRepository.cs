@@ -68,4 +68,11 @@ public class MembershipRepository : IMembershipRepository
             .AnyAsync(m => m.LicensePlate == licensePlate && 
                            m.IsActive);
     }
+    
+    public async Task<Membership?> GetActiveMembershipByLicensePlateAsync(string licensePlate)
+    {
+        return await _context.Memberships
+            .FirstOrDefaultAsync(m => m.LicensePlate == licensePlate && 
+                                      m.IsActive);
+    }
 }

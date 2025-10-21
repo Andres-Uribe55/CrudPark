@@ -16,6 +16,9 @@ builder.Services.AddScoped<IRateRepository, RateRepository>();
 // Registrar Services
 builder.Services.AddScoped<IMembershipService, MembershipService>();
 builder.Services.AddScoped<IRateService, RateService>();
+builder.Services.AddSingleton<IPasswordHasher, BCryptPasswordHasher>();
+builder.Services.AddScoped<IOperatorRepository, OperatorRepository>();
+builder.Services.AddScoped<IOperatorService, OperatorService>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 
