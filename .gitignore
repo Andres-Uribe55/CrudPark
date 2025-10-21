@@ -1,0 +1,41 @@
+# Archivos de compilación
+bin/
+obj/
+out/
+
+# Configuración de Rider / Visual Studio
+.idea/
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Archivos de paquetes y dependencias
+*.nupkg
+*.snupkg
+*.dll
+*.exe
+*.app
+*.log
+*.cache
+*.pdb
+
+# Archivos de configuración local
+appsettings.Development.json
+appsettings.Local.json
+
+# Archivos temporales del sistema
+*.tmp
+*.bak
+*.swp
+.DS_Store
+Thumbs.db
+
+# Carpetas de publicación
+publish/
+wwwroot/lib/
+
+# Node y frontend (si tuvieras interfaz)
+node_modules/
+dist/
