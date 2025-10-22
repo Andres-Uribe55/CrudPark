@@ -1,13 +1,12 @@
 namespace CrudPark.API.DTOs;
 
-public class OperatorResponseDto
+public class AuthResponseDto
 {
     public int Id { get; set; }
+    public string Username { get; set; } = string.Empty;
     public string FullName { get; set; } = string.Empty;
     public string? Email { get; set; }
-    public string Username { get; set; } = string.Empty;
     public bool IsActive { get; set; }
-    public DateTimeOffset CreatedAt { get; set; } 
-    public DateTimeOffset? UpdatedAt { get; set; }
     public string Token { get; set; } = string.Empty;
+    public DateTime TokenExpiration { get; set; }
 }

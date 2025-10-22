@@ -3,11 +3,13 @@ using CrudPark.API.Models;
 using CrudPark.API.Services;
 using CrudPark.API.DTOs; 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CrudPark.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class MembershipsController : ControllerBase
 {
     private readonly IMembershipService _membershipService;

@@ -3,11 +3,13 @@ using CrudPark.API.DTOs;
 using CrudPark.API.Models;
 using CrudPark.API.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CrudPark.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class TicketsController : ControllerBase
 {
     private readonly ITicketService _ticketService;

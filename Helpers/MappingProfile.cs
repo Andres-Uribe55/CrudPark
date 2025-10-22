@@ -52,14 +52,14 @@ public class MappingProfile : Profile
         // --- REGLAS PARA TICKET ---
         CreateMap<TicketEntryDto, Ticket>()
             .ForMember(dest => dest.Id, opt => opt.Ignore())
-            .ForMember(dest => dest.Folio, opt => opt.Ignore()) // Lo genera el servicio
-            .ForMember(dest => dest.EntryDateTime, opt => opt.Ignore()) // Lo genera el servicio
+            .ForMember(dest => dest.Folio, opt => opt.Ignore()) 
+            .ForMember(dest => dest.EntryDateTime, opt => opt.Ignore()) 
             .ForMember(dest => dest.ExitDateTime, opt => opt.Ignore())
-            .ForMember(dest => dest.EntryType, opt => opt.Ignore()) // Lo determina el servicio (Membership/Guest)
+            .ForMember(dest => dest.EntryType, opt => opt.Ignore()) 
             .ForMember(dest => dest.ExitOperatorId, opt => opt.Ignore())
             .ForMember(dest => dest.TotalMinutes, opt => opt.Ignore())
             .ForMember(dest => dest.MembershipId, opt => opt.Ignore())
-            .ForMember(dest => dest.QRCode, opt => opt.Ignore()) // Lo genera el servicio
+            .ForMember(dest => dest.QRCode, opt => opt.Ignore()) 
             .ForMember(dest => dest.RateApplied, opt => opt.Ignore())
             .ForMember(dest => dest.TotalCost, opt => opt.Ignore());
         
@@ -67,6 +67,9 @@ public class MappingProfile : Profile
             // Conversión de Enum a String para la respuesta
             .ForMember(dest => dest.VehicleType, opt => opt.MapFrom(src => src.VehicleType.ToString()))
             .ForMember(dest => dest.EntryType, opt => opt.MapFrom(src => src.EntryType.ToString()));
+        
+        CreateMap<Operator, OperatorResponseDto>()
+            .ForMember(dest => dest.Token, opt => opt.Ignore()); 
 
 
     }

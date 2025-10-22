@@ -3,25 +3,30 @@ using CrudPark.API.DTOs;
 using CrudPark.API.Models;
 using CrudPark.API.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CrudPark.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class OperatorsController : ControllerBase
 {
     private readonly IOperatorService _operatorService;
     private readonly IMapper _mapper;
+    private readonly IAuthService _authService; 
 
-    public OperatorsController(IOperatorService operatorService, IMapper mapper)
+    public OperatorsController(
+        IOperatorService operatorService, 
+        IMapper mapper,
+        IAuthService authService) 
     {
         _operatorService = operatorService;
         _mapper = mapper;
+        _authService = authService;
     }
-
-    // =======================================================
+    
     // 1. CRUD ADMINISTRATIVO
-    // =======================================================
 
     // GET: Obtener todos los operadores (para el panel de administración)
     [HttpGet]
@@ -89,10 +94,8 @@ public class OperatorsController : ControllerBase
             return Conflict(new { message = ex.Message });
         }
     }
-    
-    // =======================================================
+
     // 2. OPERACIÓN DE SEGURIDAD
-    // =======================================================
     
     // PUT: Actualizar Contraseña
     [HttpPut("{id}/password")]
@@ -111,25 +114,35 @@ public class OperatorsController : ControllerBase
         return NoContent(); // 204 indica éxito sin contenido de respuesta
     }
 
-    // =======================================================
     // 3. ENDPOINT DE AUTENTICACIÓN (LOGIN)
-    // =======================================================
     
     // POST: /api/operators/authenticate
     [HttpPost("authenticate")]
-    public async Task<ActionResult<OperatorResponseDto>> Authenticate([FromBody] LoginDto dto)
+    [AllowAnonymous]
+    public async Task<ActionResult<AuthResponseDto>> Authenticate([FromBody] LoginDto dto)
     {
-        // *Nota: Necesitarás crear un 'LoginDto' simple con propiedades Username y Password.*
-        
         var @operator = await _operatorService.AuthenticateAsync(dto.Username, dto.Password);
 
         if (@operator == null)
         {
-            // Devolver 401 si no se encuentra el usuario, no está activo o la contraseña es incorrecta
             return Unauthorized(new { message = "Nombre de usuario o contraseña incorrectos." }); 
         }
-        
-        // Si la autenticación es exitosa, devolver los datos del operador (sin el hash)
-        return Ok(_mapper.Map<OperatorResponseDto>(@operator));
+    
+        // ✨ GENERAR EL TOKEN JWT usando tu servicio existente
+        var token = _authService.GenerateJwtToken(@operator);
+    
+        // Preparar la respuesta con el token
+        var response = new AuthResponseDto
+        {
+            Id = @operator.Id,
+            Username = @operator.Username,
+            FullName = @operator.FullName,
+            Email = @operator.Email,
+            IsActive = @operator.IsActive,
+            Token = token,
+            TokenExpiration = DateTime.UtcNow.AddHours(2) // Coincide con tu configuración
+        };
+    
+        return Ok(response);
     }
 }
